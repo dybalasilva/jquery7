@@ -1,0 +1,146 @@
+<html>
+<head>
+<meta charset="UTF-8">
+<script src="jquery-3.1.1.min.js"></script> 
+	<title>Mercado de Transferências </title>
+
+</head>
+<body>
+   
+  <h1><center>Agencia de Jogadores -Supreme Sport</center></h1>
+
+<div id="mt1"> <!-- Escolha do Clube que representa atraves de script -->
+  <td>
+     <h3><center>Que Clube da Primeira Liga Representa?</center> <h3>
+  <pre>
+  <center>
+    Clube : 
+    <select name="club" id="club">
+    <option value="-" selected="selected">-</option></select>
+      </select>
+Somos uma agencia de jogadores ,prentedemos negociar com clubes e jogadores , obrigado
+      <input type="button" id="b1" value="Continuar" name="Continuar">
+</pre>
+    </center>
+</td>
+     </div>    
+<div id="mt2"><!-- Escolher nºde contrações   Começar Hide -->
+    <center>
+<br>
+                     Procura Jogador em posição ?
+      <select name="pos" id="pos">
+    <option value="-" selected="selected">-</option></select>
+      </select>
+      <br>
+  Temos um mercado com varios jogadores em varias posições   
+</pre>
+<br>
+Jogadores Disponiveis :
+    <select name="nome" id="nome">
+    <option value="-" selected="selected">-</option></select>
+      </select>
+      <br>
+
+<br>
+<br>
+  <input type="button" id="b2" value="Continuar" name="Continuar">
+</center>
+  </div>
+
+<div id="mt3">
+<br>
+ <center>
+
+<br>
+<br>
+
+
+ </center>
+</div>
+
+
+
+
+ <style>/* Decoração da Pagina */
+h1 {
+		color: #FFFFFF;
+	}
+	div {
+		
+		border:1px solid black ;
+		background: #7CFC00;
+	}
+
+body {
+    background-image: url('e.jpg');
+    background-repeat: no-repeat;
+}
+ </style>
+</body>
+<!-- jquery -->
+<script>
+$("div").wrap("<div></div>");
+   $("#mt2").hide("<div></div>");
+   $("#mt3").hide("<div></div>");
+   
+$("#b1").click(function() {
+      $("#mt1").hide("<div></div>");
+      $("#mt2").show();
+});
+
+$("#b2").click(function() {
+      $("#mt2").hide("<div></div>");
+      $("#mt3").show();
+    });
+ $('document').ready(function(){
+
+  $.ajax({
+    url:'http://10.113.146.25/gsilva/clubes.php',
+    dataType: "json",
+    success: function(data){ 
+        $.each(data,function(key, value){
+          $('#club').append('<option value="' + value + '">' + value + '</option>');  
+        })
+      }
+      })
+    });
+ 
+$('document').ready(function(){
+
+  $.ajax({
+    url:'http://10.113.146.25/gsilva/posi.php',
+    dataType: "json",
+    success: function(data){ 
+        $.each(data,function(key, value){
+          $('#pos').append('<option value="' + value + '">' + value + '</option>');  
+        })
+      }
+      })
+  $("#pos").on("change", function(){
+    var nom = $('#pos').val();
+    $("#nom").children('option').remove();
+    console.log("Posição :" , nom);
+    $.ajax({
+      url:'http://10.113.146.25/gsilva/nomes.php',
+      type: "POST",
+      dataType: "json",
+      data: {origem:destino},
+      success: function(data){
+        console.log(data);
+         $.each(data,function(key, value){
+                                        $('#destino').append('<option value="' + value + '">' + value + '</option>');
+                                })
+        },
+    })
+  });
+
+
+});
+
+
+
+
+ 
+
+</script>
+</html>
